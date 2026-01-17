@@ -3,33 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio IF</title>
+    <title>Portofolio IF</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome untuk ikon -->
+    
+    <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- CSS Eksternal -->
+    
+    <!-- Custom CSS -->
     <link rel="stylesheet" href="css/style.css">
-    <!-- Konfigurasi Tailwind -->
+    
+    <!-- Custom Tailwind Configuration -->
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        primary: '#3b82f6',
-                        secondary: '#1e40af',
-                        accent: '#f59e0b'
+                        primary: '#0A0A0A',
+                        secondary: '#1A1A1A',
+                        accent: '#4DABF7',
+                        'accent-dark': '#339AF0',
+                        'text-primary': '#F8F9FA',
+                        'text-secondary': '#ADB5BD',
+                        'text-light': '#CED4DA',
                     },
-                    fontFamily: {
-                        'sans': ['Inter', 'system-ui', 'sans-serif'],
+                    animation: {
+                        'shine': 'shine 2s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        shine: {
+                            '0%': { transform: 'translateX(-100%)' },
+                            '100%': { transform: 'translateX(100%)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-10px)' },
+                        }
                     }
                 }
             }
         }
     </script>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans">
-    <!-- Popup Modal -->
+<body class="bg-primary text-text-primary font-sans">
+        <!-- Popup Modal -->
     <div id="nameModal" class="modal-overlay">
         <div class="modal-content">
             <h2>Selamat Datang!</h2>
@@ -41,258 +61,559 @@
             
             <button id="submitName" class="submit-btn">Masuk ke Website</button>
             
+            <div class="refresh-info">
+                <p><strong>Catatan:</strong> Anda akan diminta untuk memasukkan nama lagi setiap kali halaman direfresh.</p>
+            </div>
         </div>
     </div>
-
-    <!-- Header/Navigasi -->
-    <header class="sticky top-0 z-10 bg-white shadow-md hidden" id="mainHeader">
-        <nav class="container mx-auto px-4 py-3">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h1 class="text-2xl font-bold text-primary">Portfolio<span class="text-accent">.</span></h1>
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 left-0 right-0 bg-primary/95 backdrop-blur-lg border-b border-gray-800 z-50">
+        <div class="container mx-auto px-4">
+            <nav class="flex justify-between items-center py-5">
+                <div class="logo text-2xl font-bold">
+                    Ikhsan<span class="text-accent">Fauzan</span>
                 </div>
-                <ul id="nav-menu" class="flex flex-wrap justify-center space-x-1 md:space-x-4">
-                    <li><a href="#beranda" class="nav-link active px-3 py-2 rounded-md font-medium transition-all" data-page="beranda">Beranda</a></li>
-                    <li><a href="#profil" class="nav-link px-3 py-2 rounded-md font-medium transition-all" data-page="profil">Profil</a></li>
-                    <li><a href="#portfolio" class="nav-link px-3 py-2 rounded-md font-medium transition-all" data-page="portfolio">Portfolio</a></li>
-                    <li><a href="#kontak" class="nav-link px-3 py-2 rounded-md font-medium transition-all" data-page="kontak">Kontak</a></li>
+                
+                <!-- Mobile Menu Button -->
+                <button id="menuToggle" class="md:hidden text-xl">
+                    <i class="fas fa-bars"></i>
+                </button>
+                
+                <!-- Desktop Navigation -->
+                <ul class="hidden md:flex space-x-8">
+                    <li><a href="#home" class="nav-link">Beranda</a></li>
+                    <li><a href="#about" class="nav-link">Tentang</a></li>
+                    <li><a href="#experience" class="nav-link">Pengalaman</a></li>
+                    <li><a href="#skills" class="nav-link">Keterampilan</a></li>
+                    <li><a href="#projects" class="nav-link">Proyek</a></li>
+                    <li><a href="#contact" class="nav-link">Kontak</a></li>
                 </ul>
-            </div>
-        </nav>
+            </nav>
+        </div>
+        
+        <!-- Mobile Navigation -->
+        <div id="mobileMenu" class="md:hidden fixed top-16 left-0 right-0 bg-secondary border-t border-gray-800 transform -translate-y-full transition-transform duration-300">
+            <ul class="flex flex-col p-4 space-y-4">
+                <li><a href="#home" class="block py-2 nav-link">Beranda</a></li>
+                <li><a href="#about" class="block py-2 nav-link">Tentang</a></li>
+                <li><a href="#experience" class="block py-2 nav-link">Pengalaman</a></li>
+                <li><a href="#skills" class="block py-2 nav-link">Keterampilan</a></li>
+                <li><a href="#projects" class="block py-2 nav-link">Proyek</a></li>
+                <li><a href="#contact" class="block py-2 nav-link">Kontak</a></li>
+            </ul>
+        </div>
     </header>
 
-    <!-- Konten Utama -->
-    <main class="container mx-auto px-4 py-8" id="mainContent">
-        <!-- Halaman Beranda -->
-        <section id="beranda" class="page active min-h-[70vh] flex items-center justify-center">
-            <div class=" text-center max-w-3xl mx-auto">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Selamat Datang <span id="displayName" class="user-name">Pengunjung</span>!</h2>
-                <p class="text-xl text-gray-600 mb-8">Di Portfolio saya.</p>
-                <div class="animate-bounce mt-8">
-                    <i class="fas fa-chevron-down text-3xl text-primary"></i>
+    <!-- Hero Section -->
+    <section id="home" class="pt-32 pb-20 relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full -translate-y-1/2 translate-x-1/4"></div>
+        
+        <div class="container mx-auto px-4">
+            <div class="flex flex-col md:flex-row items-center justify-between">
+                <!-- Hero Text -->
+                <div class="md:w-1/2 mb-12 md:mb-0">
+                    <h1 class="text-4xl md:text-5xl font-bold mb-6">
+                        Halo, <span id="displayName" class="text-accent">pengunjung</span>!
+                    </h1>
+                    <p class="text-lg text-text-secondary mb-8">
+                        <strong>Selamat Datang di Portofolio Saya.</strong>
+                    </p>
+                    
                 </div>
-            </div>
-        </section>
-
-        <!-- Halaman Profil -->
-        <section id="profil" class="page">
-            <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold mb-8 text-center">Profil Saya</h2>
-                <div class="flex flex-col md:flex-row items-center gap-8">
-                    <div class="md:w-1/3">
-                        <div class="w-48 h-48 mx-auto md:mx-0 rounded-full overflow-hidden border-4 border-primary shadow-lg">
-                            <img src="https://images.unsplash.com/photo-1767462454361-81ef7690aea8?q=80&w=389&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Foto Profil" class="w-full h-full object-cover">
-                        </div>
-                    </div>
-                    <div class="md:w-2/3">
-                        <h3 class="text-2xl font-bold mb-4">Halo, Saya <span class="text-primary">Ikhsan Fauzan</span></h3>
-                        <p class="mb-4 text-gray-700">Saya adalah siswa SMK di Bandung. Saya memiliki passion untuk membuat web yang responsif, efisien, dan user-friendly.</p>
-                        <p class="mb-6 text-gray-700">Saya sudah belajar berbagai bahasa pemrograman termasuk HTML, CSS, JavaScript, PHP dan berbagai framework modern lainnya.</p>
-                        
-                        <div class="mb-6">
-                            <h4 class="text-xl font-bold mb-3">Keahlian</h4>
-                            <div class="flex flex-wrap gap-2">
-                                <span class="bg-primary text-white px-3 py-1 rounded-full">HTML</span>
-                                <span class="bg-primary text-white px-3 py-1 rounded-full">CSS</span>
-                                <span class="bg-primary text-white px-3 py-1 rounded-full">JavaScript</span>
-                                <span class="bg-primary text-white px-3 py-1 rounded-full">PHP</span>
-                                <span class="bg-primary text-white px-3 py-1 rounded-full">Canva</span>
-                                <span class="bg-primary text-white px-3 py-1 rounded-full">UI/UX Design</span>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <h4 class="text-xl font-bold mb-3">Pengalaman</h4>
-                            <ul class="space-y-2">
-                                <li class="flex items-start">
-                                    <i class="fas fa-briefcase text-primary mt-1 mr-2"></i>
-                                    <span>Membuat website E-Commerce sepatu</span>
-                                </li>
-                                <li class="flex items-start">
-                                    <i class="fas fa-briefcase text-primary mt-1 mr-2"></i>
-                                    <span>Membuat Mockup di Figma</span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Halaman Portfolio -->
-        <section id="portfolio" class="page">
-            <div class="max-w-6xl mx-auto">
-                <h2 class="text-3xl font-bold mb-8 text-center mt-20">Portfolio</h2>
-                <p class="text-gray-600 text-center mb-10">Berikut adalah beberapa proyek yang telah saya kerjakan:</p>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Item Portfolio 1 -->
-                    <div class="portfolio-item bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1674&q=80" alt="E-commerce Website" class="w-full h-full object-cover transition-transform hover:scale-110">
+                <!-- Hero Image -->
+                <div class="md:w-1/2 flex justify-center">
+                    <div class="relative">
+                        <div class="w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-br from-secondary to-gray-900 border-4 border-gray-800 flex items-center justify-center shadow-2xl">
+                            <i class="fas fa-laptop-code text-6xl md:text-8xl text-accent"></i>
                         </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-bold mb-2">E-commerce Website</h3>
-                            <p class="text-gray-600 mb-4">Platform e-commerce dengan fitur lengkap termasuk keranjang belanja, pembayaran online, dan dashboard admin.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">React</span>
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">Node.js</span>
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">MongoDB</span>
-                            </div>
-                            <a href="#" class="text-primary font-medium hover:text-secondary">Lihat Detail →</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Item Portfolio 2 -->
-                    <div class="portfolio-item bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Analytics Dashboard" class="w-full h-full object-cover transition-transform hover:scale-110">
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-bold mb-2">Analytics Dashboard</h3>
-                            <p class="text-gray-600 mb-4">Dashboard analitik dengan visualisasi data real-time untuk membantu pengambilan keputusan bisnis.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">Vue.js</span>
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">Express</span>
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">Chart.js</span>
-                            </div>
-                            <a href="#" class="text-primary font-medium hover:text-secondary">Lihat Detail →</a>
-                        </div>
-                    </div>
-                    
-                    <!-- Item Portfolio 3 -->
-                    <div class="portfolio-item bg-white rounded-lg overflow-hidden shadow-lg transition-transform hover:-translate-y-2">
-                        <div class="h-48 overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1740&q=80" alt="Mobile App UI" class="w-full h-full object-cover transition-transform hover:scale-110">
-                        </div>
-                        <div class="p-5">
-                            <h3 class="text-xl font-bold mb-2">Mobile App UI</h3>
-                            <p class="text-gray-600 mb-4">Desain antarmuka pengguna untuk aplikasi mobile dengan fokus pada pengalaman pengguna yang intuitif.</p>
-                            <div class="flex flex-wrap gap-2 mb-4">
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">Figma</span>
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">UI Design</span>
-                                <span class="text-xs bg-gray-200 px-2 py-1 rounded">Prototyping</span>
-                            </div>
-                            <a href="#" class="text-primary font-medium hover:text-secondary">Lihat Detail →</a>
-                        </div>
+                        <div class="absolute -inset-4 rounded-full bg-gradient-to-r from-accent/20 to-transparent -z-10 animate-pulse"></div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <!-- Halaman Kontak -->
-        <section id="kontak" class="page">
-            <div class="max-w-4xl mx-auto mt-20">
-                <h2 class="text-3xl font-bold mb-8 text-center">Kontak</h2>
-                <div class="flex flex-col md:flex-row gap-10">
-                    <!-- Informasi Kontak -->
-                    <div class="md:w-2/5">
-                        <h3 class="text-2xl font-bold mb-6">Hubungi Saya</h3>
-                        <p class="text-gray-600 mb-8">Saya terbuka untuk peluang kerja sama, proyek baru, atau sekadar berdiskusi tentang teknologi.</p>
-                        
-                        <div class="space-y-6">
-                            <div class="flex items-start">
-                                <div class="bg-primary text-white p-3 rounded-lg mr-4">
-                                    <i class="fas fa-envelope text-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">Email</h4>
-                                    <p class="text-gray-600">ikhsanfauzan75@gmail.com</p>
-                                </div>
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-secondary/50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+                    Tentang Saya
+                    <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-accent rounded-full"></span>
+                </h2>
+                <p class="text-text-secondary">Profil dan pendidikan saya</p>
+            </div>
+            
+            <div class="flex flex-col lg:flex-row gap-12">
+                <!-- About Text -->
+                <div class="lg:w-1/2">
+                    <p class="text-lg mb-6">
+                        Saya adalah siswa SMK BPP Bandung jurusan Rekayasa Perangkat Lunak (RPL). Selama pendidikan, saya telah belajar tentang mengembangkan website fungsional menggunakan teknologi seperti HTML, CSS, JavaScript, PHP, dan MySQL, sekaligus merancang antarmuka yang menarik dan user-friendly.
+                    </p>
+                    <p class="text-lg mb-6">
+                        Pengalaman saya sebagai Ketua Divisi PDD di OSIS telah membentuk kemampuan kepemimpinan dan manajemen proyek yang kuat. Saya memimpin tim untuk menciptakan berbagai materi desain grafis seperti poster, spanduk, dan konten digital untuk mempromosikan kegiatan sekolah, serta bertanggung jawab dalam dokumentasi visual seluruh acara penting.
+                    </p>
+                    <p class="text-lg">
+                        Saya memiliki passion yang besar terhadap teknologi web dan seni digital, dan selalu bersemangat untuk mempelajari framework, tools, dan metodologi baru dalam pengembangan software.
+                    </p>
+                </div>
+                
+                <!-- About Details -->
+                <div class="lg:w-1/2 space-y-6">
+                    <!-- Education -->
+                    <div class="bg-primary p-6 rounded-xl border-l-4 border-accent shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-graduation-cap text-accent text-xl"></i>
                             </div>
-                            
-                            <div class="flex items-start">
-                                <div class="bg-primary text-white p-3 rounded-lg mr-4">
-                                    <i class="fas fa-phone text-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">Telepon</h4>
-                                    <p class="text-gray-600">+62 838 3681 9100</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="bg-primary text-white p-3 rounded-lg mr-4">
-                                    <i class="fas fa-map-marker-alt text-lg"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-bold">Lokasi</h4>
-                                    <p class="text-gray-600">Bandung, Indonesia</p>
-                                </div>
-                            </div>
+                            <h3 class="text-xl font-bold">Pendidikan</h3>
                         </div>
-                        
-                        <div class="mt-10">
-                            <h4 class="text-xl font-bold mb-4">Media Sosial</h4>
-                            <div class="flex space-x-4">
-                                <a href="#" class="social-icon bg-gray-200 text-gray-800 p-3 rounded-full hover:bg-primary hover:text-white transition-all">
-                                    <i class="fab fa-linkedin-in"></i>
-                                </a>
-                                <a href="#" class="social-icon bg-gray-200 text-gray-800 p-3 rounded-full hover:bg-primary hover:text-white transition-all">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <a href="#" class="social-icon bg-gray-200 text-gray-800 p-3 rounded-full hover:bg-primary hover:text-white transition-all">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <a href="#" class="social-icon bg-gray-200 text-gray-800 p-3 rounded-full hover:bg-primary hover:text-white transition-all">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                            </div>
-                        </div>
+                        <p class="text-text-light">
+                            <strong>SMK BPP Bandung</strong><br>
+                            Jurusan Rekayasa Perangkat Lunak (RPL)<br>
+                            2024 - Sekarang
+                        </p>
                     </div>
                     
-                    <!-- Form Kontak -->
-                    <div class="md:w-3/5">
-                        <h3 class="text-2xl font-bold mb-6">Kirim Pesan</h3>
-                        <form id="contact-form" class="space-y-6">
-                            <div>
-                                <label for="name" class="block font-medium mb-2">Nama Lengkap</label>
-                                <input type="text" id="name" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                    <!-- Focus -->
+                    <div class="bg-primary p-6 rounded-xl border-l-4 border-accent shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-code text-accent text-xl"></i>
                             </div>
-                            
-                            <div>
-                                <label for="email" class="block font-medium mb-2">Email</label>
-                                <input type="email" id="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
+                            <h3 class="text-xl font-bold">Fokus Belajar</h3>
+                        </div>
+                        <p class="text-text-light">
+                            Pemrograman Web (HTML, CSS, JavaScript, PHP), Basis Data (MySQL), dan UI/UX Design.
+                        </p>
+                    </div>
+                    
+                    <!-- Goals -->
+                    <div class="bg-primary p-6 rounded-xl border-l-4 border-accent shadow-lg hover:shadow-xl transition-shadow">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center mr-4">
+                                <i class="fas fa-bullseye text-accent text-xl"></i>
                             </div>
-                            
-                            <div>
-                                <label for="subject" class="block font-medium mb-2">Subjek</label>
-                                <input type="text" id="subject" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required>
-                            </div>
-                            
-                            <div>
-                                <label for="message" class="block font-medium mb-2">Pesan</label>
-                                <textarea id="message" rows="5" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary" required></textarea>
-                            </div>
-                            
-                            <button type="submit" class="w-full bg-primary text-white py-3 px-6 rounded-lg font-medium hover:bg-secondary transition-all">
-                                Kirim Pesan
-                            </button>
-                        </form>
-                        
-                        <div id="form-message" class="mt-4 hidden p-4 rounded-lg"></div>
+                            <h3 class="text-xl font-bold">Tujuan</h3>
+                        </div>
+                        <p class="text-text-light">
+                            Mencari kesempatan magang atau proyek kolaborasi di bidang Web Development atau Desain Grafis untuk mengaplikasikan ilmu dan memperdalam keterampilan teknis.
+                        </p>
                     </div>
                 </div>
             </div>
-        </section>
-    </main>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="py-20 bg-primary">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+                    Pengalaman Organisasi
+                    <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-accent rounded-full"></span>
+                </h2>
+                <p class="text-text-secondary">Aktivitas sekolah</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Experience Card 1 -->
+                <div class="experience-card">
+                    <div class="w-16 h-16 bg-accent/20 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-users text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Ketua Divisi PDD OSIS</h3>
+                    <p class="text-text-secondary mb-4">
+                        <strong>OSIS SMK BPP Bandung</strong><br>
+                        2025 - Sekarang
+                    </p>
+                    <p class="text-text-light">
+                        Memimpin tim untuk membuat desain grafis (poster, spanduk, konten media sosial) guna mempromosikan kegiatan sekolah. Bertanggung jawab dalam dokumentasi seluruh acara sekolah dan mengelola akun media sosial OSIS.
+                    </p>
+                </div>
+                
+                <!-- Experience Card 2 -->
+                <div class="experience-card">
+                    <div class="w-16 h-16 bg-accent/20 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-bullhorn text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Publikasi & Desain</h3>
+                    <p class="text-text-secondary mb-4">
+                        <strong>Divisi PDD OSIS</strong><br>
+                        2025 - Sekarang
+                    </p>
+                    <p class="text-text-light">
+                        Membuat konten visual untuk berbagai acara sekolah, meningkatkan engagement melalui media sosial, dan mengembangkan strategi publikasi yang efektif untuk komunitas sekolah.
+                    </p>
+                </div>
+                
+                <!-- Experience Card 3 -->
+                <div class="experience-card">
+                    <div class="w-16 h-16 bg-accent/20 rounded-xl flex items-center justify-center mb-6">
+                        <i class="fas fa-camera text-accent text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Dokumentasi</h3>
+                    <p class="text-text-secondary mb-4">
+                        <strong>Divisi PDD OSIS</strong><br>
+                        2025 - Sekarang
+                    </p>
+                    <p class="text-text-light">
+                        Mendokumentasikan seluruh acara sekolah melalui foto dan video, mengelola arsip dokumentasi, dan menyiapkan materi visual untuk laporan kegiatan sekolah.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="py-20 bg-secondary/50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+                    Keterampilan
+                    <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-accent rounded-full"></span>
+                </h2>
+                <p class="text-text-secondary">Hard skills dan soft skills yang saya miliki</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Hard Skills -->
+                <div class="skill-card">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-cogs text-accent mr-3"></i>
+                        Teknis (Hard Skills)
+                    </h3>
+                    
+                    <!-- Skill Item 1 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Web Development</span>
+                            <span class="text-accent">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 2 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">HTML/CSS/JavaScript</span>
+                            <span class="text-accent">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 3 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">PHP & MySQL</span>
+                            <span class="text-accent">75%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 4 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Desain Grafis</span>
+                            <span class="text-accent">80%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 5 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">UI/UX Design</span>
+                            <span class="text-accent">70%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 70%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Soft Skills -->
+                <div class="skill-card">
+                    <h3 class="text-2xl font-bold mb-6 flex items-center">
+                        <i class="fas fa-users text-accent mr-3"></i>
+                        Non-Teknis (Soft Skills)
+                    </h3>
+                    
+                    <!-- Skill Item 1 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Kepemimpinan & Manajemen Tim</span>
+                            <span class="text-accent">90%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 2 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Komunikasi & Publikasi</span>
+                            <span class="text-accent">85%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 3 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Kreativitas dalam Desain</span>
+                            <span class="text-accent">88%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 4 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Problem Solving</span>
+                            <span class="text-accent">82%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 82%"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Skill Item 5 -->
+                    <div class="mb-6">
+                        <div class="flex justify-between mb-2">
+                            <span class="font-semibold">Kemampuan Dokumentasi</span>
+                            <span class="text-accent">87%</span>
+                        </div>
+                        <div class="w-full bg-gray-800 rounded-full h-2.5">
+                            <div class="skill-bar" style="width: 87%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="py-20 bg-primary">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+                    Proyek Saya
+                    <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-accent rounded-full"></span>
+                </h2>
+                <p class="text-text-secondary">Website dan aplikasi yang telah saya buat</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1: Website Sepatu -->
+                <div class="project-card group">
+                    <div class="project-image">
+                        <i class="fas fa-shoe-prints text-5xl text-accent"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Website Toko Sepatu</h3>
+                        <p class="text-text-light mb-4">
+                            Website katalog sepatu dengan fitur menampilkan produk dan detail. Dibuat menggunakan HTML, CSS, dan JavaScript.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">HTML</span>
+                            <span class="tech-tag">CSS</span>
+                            <span class="tech-tag">JavaScript</span>
+                        </div>
+                        
+
+                    </div>
+                </div>
+                
+                <!-- Project 2: Website Buku Tamu -->
+                <div class="project-card group">
+                    <div class="project-image">
+                        <i class="fas fa-book-open text-5xl text-accent"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Website Buku Tamu Digital</h3>
+                        <p class="text-text-light mb-4">
+                            Sistem buku tamu online dimana pengunjung dapat mengisi nama, pesan, dan tanggal. Dilengkapi dengan halaman admin untuk mengelola data.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">PHP</span>
+                            <span class="tech-tag">MySQL</span>
+                            <span class="tech-tag">Bootstrap</span>
+                        </div>
+                        
+                    </div>
+                </div>
+                
+                <!-- Project 3: Desain Grafis -->
+                <div class="project-card group">
+                    <div class="project-image">
+                        <i class="fas fa-paint-brush text-5xl text-accent"></i>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-xl font-bold mb-3">Desain Grafis OSIS</h3>
+                        <p class="text-text-light mb-4">
+                            Koleksi desain grafis untuk berbagai acara sekolah termasuk poster, spanduk, dan konten media sosial yang dibuat selama menjadi Ketua Divisi PDD.
+                        </p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-6">
+                            <span class="tech-tag">Canva</span>
+                            <span class="tech-tag">Desain Grafis</span>
+                            <span class="tech-tag">Publikasi</span>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-secondary/50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold mb-4 relative inline-block">
+                    Kontak Saya
+                    <span class="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-16 h-1 bg-accent rounded-full"></span>
+                </h2>
+                <p class="text-text-secondary">Hubungi saya untuk peluang kolaborasi</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Contact Info -->
+                <div class="contact-card">
+                    <h3 class="text-2xl font-bold mb-6">Informasi Kontak</h3>
+                    
+                    <div class="space-y-6">
+                        <!-- Email -->
+                        <div class="flex items-center">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Email</h4>
+                                <p class="text-text-light">ikhsanfauzan75@gmail.com</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Phone -->
+                        <div class="flex items-center">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Telepon</h4>
+                                <p class="text-text-light">+62 838 3681 9100</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Location -->
+                        <div class="flex items-center">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Lokasi</h4>
+                                <p class="text-text-light">Bandung, Jawa Barat</p>
+                            </div>
+                        </div>
+                        
+                        <!-- School -->
+                        <div class="flex items-center">
+                            <div class="contact-icon">
+                                <i class="fas fa-school"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Sekolah</h4>
+                                <p class="text-text-light">SMK BPP Bandung, Jurusan RPL</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Contact Form/Message -->
+                <div class="contact-card">
+                    <h3 class="text-2xl font-bold mb-6">Tetap Terhubung</h3>
+                    <p class="text-text-light mb-6">
+                        Saya terbuka untuk peluang magang, proyek kolaborasi, atau diskusi tentang pengembangan web dan desain grafis.
+                    </p>
+                    <p class="text-text-light mb-6">
+                        Silakan hubungi saya melalui email atau telepon untuk membicarakan kemungkinan kerja sama.
+                    </p>
+                    
+                    <div class="mt-8">
+                        <a href="mailto:ikhsanfauzan@example.com" class="btn-primary">
+                            <i class="fas fa-paper-plane mr-2"></i>Kirim Email
+                        </a>
+                    </div>
+                    
+                    <!-- Social Media -->
+                    <div class="mt-8 pt-6 border-t border-gray-800">
+                        <h4 class="font-bold mb-4">Media Sosial</h4>
+                        <div class="flex space-x-4">
+                            <a href="https://www.instagram.com/sann_fzn/" class="social-icon">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://github.com/SanFzn" class="social-icon">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-icon">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- Footer -->
-    <footer class="bg-gray-800 text-white py-6 mt-12 hidden" id="mainFooter">
-        <div class="container mx-auto px-4">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-4 md:mb-0">
-                    <h2 class="text-xl font-bold">Portfolio</h2>
-                    <p class="text-gray-400">©Ikhsan 15-01-2026</p>
-                </div>
-                <div>
-                    <p class="text-gray-400">Situs ini dibuat dengan HTML, CSS eksternal, Tailwind CSS, dan JavaScript</p>
-                </div>
+    <footer class="bg-primary border-t border-gray-800 py-8">
+        <div class="container mx-auto px-4 text-center">
+            <div class="logo text-2xl font-bold mb-4">
+                Ikhsan<span class="text-accent">Fauzan</span>
+            </div>
+            <p class="text-text-secondary mb-6 max-w-2xl mx-auto">
+                Siswa SMK BPP Bandung jurusan RPL dengan spesialisasi dalam pengembangan web dan desain grafis.
+            </p>
+            
+            <div class="copyright text-text-light text-sm">
+                &copy; 2026 Ikhsan Fauzan.
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript Eksternal -->
+    <!-- Project Detail Modal -->
+    <div id="projectModal" class="fixed inset-0 bg-black/80 flex items-center justify-center z-50 hidden">
+        <div class="bg-secondary rounded-xl max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+                <!-- Modal content will be inserted here by JavaScript -->
+            </div>
+            <button onclick="closeProjectDetail()" class="absolute top-4 right-4 text-2xl text-text-secondary hover:text-accent">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
     <script src="js/script.js"></script>
 </body>
 </html>
